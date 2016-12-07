@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 /* eslint-disable */
-import ToDoApp from 'ToDoApp';
+import ToDoApp from 'TodoApp';
 
 // Load foundation
 

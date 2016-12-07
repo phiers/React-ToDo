@@ -1,4 +1,4 @@
-const webpack = require('webpack');
+const webpack = require('webpack'); // eslint-disable-line
 const path = require('path');
 
 module.exports = {
@@ -12,8 +12,8 @@ module.exports = {
   },
   plugins: [
     new webpack.ProvidePlugin({
-      '$': 'jquery',
-      'jQuery': 'jquery',
+      '$': 'jquery', // eslint-disable-line
+      'jQuery': 'jquery', //eslint-disable-line
     }),
   ],
   output: {
@@ -22,9 +22,11 @@ module.exports = {
   },
   resolve: {
     root: __dirname,
+    modulesDirectories: [
+      'node_modules',
+      './app/components',
+    ],
     alias: { // set paths to files I'll be requiring
-      Main: 'app/components/Main.jsx',
-      Nav: 'app/components/Nav.jsx',
       applicationStyles: 'app/styles/app.scss',
     },
     extensions: ['', '.js', '.jsx'],

@@ -17,23 +17,37 @@ export default class ToDoApp extends React.Component {
         {
           id: uuidV4(),
           text: 'Todo app tutorial',
+          completed: false,
         },
         {
           id: uuidV4(),
           text: 'Start MD Viewer',
+          completed: false,
         },
         {
           id: uuidV4(),
           text: 'Workout',
+          completed: true,
         },
         {
           id: uuidV4(),
           text: 'Take a shower',
+          completed: true,
         },
       ],
     };
     this.handleAddTodo = this.handleAddTodo.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
+    this.handleToggle = this.handleToggle.bind(this);
+  }
+  handleToggle(id) {
+    const updatedTodos = this.state.todos.map((todo) => {
+      if (todo.id === id) {
+        todo.completed = !todo.completed; // eslint-disable-line
+      }
+      return todo;
+    });
+    this.setState({ todos: updatedTodos });
   }
   handleAddTodo(text) {
     this.setState({
@@ -42,6 +56,7 @@ export default class ToDoApp extends React.Component {
         {
           id: uuidV4(),
           text,
+          completed: false,
         },
       ],
     });
@@ -60,7 +75,7 @@ export default class ToDoApp extends React.Component {
       <div>
         <h1>Todo App</h1>
         <TodoSearch onSearch={this.handleSearch} />
-        <TodoList todos={todos} />
+        <TodoList todos={todos} onToggle={this.handleToggle} />
         <TodoAddForm onAddTodo={this.handleAddTodo} />
       </div>
     );

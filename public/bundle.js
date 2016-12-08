@@ -19836,7 +19836,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _v = __webpack_require__(178);
+	var _v = __webpack_require__(167);
 
 	var _v2 = _interopRequireDefault(_v);
 
@@ -19880,30 +19880,47 @@
 	      searchText: '',
 	      todos: [{
 	        id: (0, _v2.default)(),
-	        text: 'Todo app tutorial'
+	        text: 'Todo app tutorial',
+	        completed: false
 	      }, {
 	        id: (0, _v2.default)(),
-	        text: 'Start MD Viewer'
+	        text: 'Start MD Viewer',
+	        completed: false
 	      }, {
 	        id: (0, _v2.default)(),
-	        text: 'Workout'
+	        text: 'Workout',
+	        completed: true
 	      }, {
 	        id: (0, _v2.default)(),
-	        text: 'Take a shower'
+	        text: 'Take a shower',
+	        completed: true
 	      }]
 	    };
 	    _this.handleAddTodo = _this.handleAddTodo.bind(_this);
 	    _this.handleSearch = _this.handleSearch.bind(_this);
+	    _this.handleToggle = _this.handleToggle.bind(_this);
 	    return _this;
 	  }
 
 	  _createClass(ToDoApp, [{
+	    key: 'handleToggle',
+	    value: function handleToggle(id) {
+	      var updatedTodos = this.state.todos.map(function (todo) {
+	        if (todo.id === id) {
+	          todo.completed = !todo.completed; // eslint-disable-line
+	        }
+	        return todo;
+	      });
+	      this.setState({ todos: updatedTodos });
+	    }
+	  }, {
 	    key: 'handleAddTodo',
 	    value: function handleAddTodo(text) {
 	      this.setState({
 	        todos: [].concat(_toConsumableArray(this.state.todos), [{
 	          id: (0, _v2.default)(),
-	          text: text
+	          text: text,
+	          completed: false
 	        }])
 	      });
 	      // this.setState({ todos: this.state.todos.concat(newTodo) });
@@ -19930,7 +19947,7 @@
 	          'Todo App'
 	        ),
 	        _react2.default.createElement(_TodoSearch2.default, { onSearch: this.handleSearch }),
-	        _react2.default.createElement(_TodoList2.default, { todos: todos }),
+	        _react2.default.createElement(_TodoList2.default, { todos: todos, onToggle: this.handleToggle }),
 	        _react2.default.createElement(_TodoAddForm2.default, { onAddTodo: this.handleAddTodo })
 	      );
 	    }
@@ -19942,7 +19959,41 @@
 	exports.default = ToDoApp;
 
 /***/ },
-/* 167 */,
+/* 167 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var rng = __webpack_require__(168);
+	var bytesToUuid = __webpack_require__(169);
+
+	function v4(options, buf, offset) {
+	  var i = buf && offset || 0;
+
+	  if (typeof(options) == 'string') {
+	    buf = options == 'binary' ? new Array(16) : null;
+	    options = null;
+	  }
+	  options = options || {};
+
+	  var rnds = options.random || (options.rng || rng)();
+
+	  // Per 4.4, set bits for version and `clock_seq_hi_and_reserved`
+	  rnds[6] = (rnds[6] & 0x0f) | 0x40;
+	  rnds[8] = (rnds[8] & 0x3f) | 0x80;
+
+	  // Copy bytes to buffer, if provided
+	  if (buf) {
+	    for (var ii = 0; ii < 16; ++ii) {
+	      buf[i + ii] = rnds[ii];
+	    }
+	  }
+
+	  return buf || bytesToUuid(rnds);
+	}
+
+	module.exports = v4;
+
+
+/***/ },
 /* 168 */
 /***/ function(module, exports) {
 
@@ -20057,11 +20108,13 @@
 	  _createClass(TodoList, [{
 	    key: 'render',
 	    value: function render() {
+	      var _this2 = this;
+
 	      var todos = this.props.todos;
 
 	      var renderTodos = function renderTodos() {
 	        return todos.map(function (todo) {
-	          return _react2.default.createElement(_Todo2.default, _extends({ key: todo.id }, todo));
+	          return _react2.default.createElement(_Todo2.default, _extends({ key: todo.id }, todo, { onToggle: _this2.props.onToggle }));
 	        });
 	      };
 	      return _react2.default.createElement(
@@ -20081,7 +20134,7 @@
 /* 171 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -20111,17 +20164,21 @@
 	  }
 
 	  _createClass(Todo, [{
-	    key: 'render',
+	    key: "render",
 	    value: function render() {
+	      var _this2 = this;
+
 	      var _props = this.props,
+	          id = _props.id,
 	          text = _props.text,
-	          id = _props.id;
+	          completed = _props.completed;
 
 	      return _react2.default.createElement(
-	        'div',
+	        "div",
 	        null,
-	        id,
-	        '. ',
+	        _react2.default.createElement("input", { type: "checkbox", checked: completed, onChange: function onChange() {
+	            _this2.props.onToggle(id);
+	          } }),
 	        text
 	      );
 	    }
@@ -20131,6 +20188,14 @@
 	}(_react2.default.Component);
 
 	exports.default = Todo;
+
+
+	Todo.propTypes = {
+	  id: _react2.default.PropTypes.string.isRequired,
+	  text: _react2.default.PropTypes.string.isRequired,
+	  completed: _react2.default.PropTypes.bool.isRequired,
+	  onToggle: _react2.default.PropTypes.func
+	};
 
 /***/ },
 /* 172 */
@@ -20635,41 +20700,6 @@
 		if(oldSrc)
 			URL.revokeObjectURL(oldSrc);
 	}
-
-
-/***/ },
-/* 178 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var rng = __webpack_require__(168);
-	var bytesToUuid = __webpack_require__(169);
-
-	function v4(options, buf, offset) {
-	  var i = buf && offset || 0;
-
-	  if (typeof(options) == 'string') {
-	    buf = options == 'binary' ? new Array(16) : null;
-	    options = null;
-	  }
-	  options = options || {};
-
-	  var rnds = options.random || (options.rng || rng)();
-
-	  // Per 4.4, set bits for version and `clock_seq_hi_and_reserved`
-	  rnds[6] = (rnds[6] & 0x0f) | 0x40;
-	  rnds[8] = (rnds[8] & 0x3f) | 0x80;
-
-	  // Copy bytes to buffer, if provided
-	  if (buf) {
-	    for (var ii = 0; ii < 16; ++ii) {
-	      buf[i + ii] = rnds[ii];
-	    }
-	  }
-
-	  return buf || bytesToUuid(rnds);
-	}
-
-	module.exports = v4;
 
 
 /***/ }

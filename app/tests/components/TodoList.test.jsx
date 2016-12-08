@@ -16,12 +16,14 @@ describe('TodoList', () => {
   it('should render one todo component for each todo item', () => {
     const todos = [
       {
-        id: 1,
+        id: '1',
         text: 'item 1',
+        completed: true,
       },
       {
-        id: 2,
+        id: '2',
         text: 'item 2',
+        completed: false,
       },
     ];
     const todoList = TestUtils.renderIntoDocument(<TodoList todos={todos} />);

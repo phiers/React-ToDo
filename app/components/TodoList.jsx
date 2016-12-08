@@ -4,6 +4,7 @@ import Todo from 'Todo';
 /* eslint-enable */
 
 export default class TodoList extends React.Component {
+
   render() {
     const { todos } = this.props;
     const renderTodos = () => {

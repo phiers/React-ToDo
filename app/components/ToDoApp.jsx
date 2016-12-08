@@ -5,6 +5,7 @@ import uuidV4 from 'uuid/v4';
 import TodoList from 'TodoList';
 import TodoAddForm from 'TodoAddForm';
 import TodoSearch from 'TodoSearch';
+import TodoAPI from 'TodoAPI';
 /* eslint-enable */
 
 export default class ToDoApp extends React.Component {
@@ -13,32 +14,15 @@ export default class ToDoApp extends React.Component {
     this.state = {
       showCompleted: false,
       searchText: '',
-      todos: [
-        {
-          id: uuidV4(),
-          text: 'Todo app tutorial',
-          completed: false,
-        },
-        {
-          id: uuidV4(),
-          text: 'Start MD Viewer',
-          completed: false,
-        },
-        {
-          id: uuidV4(),
-          text: 'Workout',
-          completed: true,
-        },
-        {
-          id: uuidV4(),
-          text: 'Take a shower',
-          completed: true,
-        },
-      ],
+      todos: TodoAPI.getTodos(),
     };
     this.handleAddTodo = this.handleAddTodo.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.handleToggle = this.handleToggle.bind(this);
+  }
+
+  componentDidUpdate() {
+    TodoAPI.setTodos(this.state.todos);
   }
   handleToggle(id) {
     const updatedTodos = this.state.todos.map((todo) => {

@@ -114,7 +114,7 @@
 	// App css
 
 	/* eslint-disable */
-	__webpack_require__(174);
+	__webpack_require__(175);
 	/* eslint-enable */
 
 	_reactDom2.default.render(_react2.default.createElement(_TodoApp2.default, null), document.getElementById('app')); //eslint-disable-line
@@ -19852,6 +19852,10 @@
 
 	var _TodoSearch2 = _interopRequireDefault(_TodoSearch);
 
+	var _TodoAPI = __webpack_require__(174);
+
+	var _TodoAPI2 = _interopRequireDefault(_TodoAPI);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
@@ -19878,23 +19882,7 @@
 	    _this.state = {
 	      showCompleted: false,
 	      searchText: '',
-	      todos: [{
-	        id: (0, _v2.default)(),
-	        text: 'Todo app tutorial',
-	        completed: false
-	      }, {
-	        id: (0, _v2.default)(),
-	        text: 'Start MD Viewer',
-	        completed: false
-	      }, {
-	        id: (0, _v2.default)(),
-	        text: 'Workout',
-	        completed: true
-	      }, {
-	        id: (0, _v2.default)(),
-	        text: 'Take a shower',
-	        completed: true
-	      }]
+	      todos: _TodoAPI2.default.getTodos()
 	    };
 	    _this.handleAddTodo = _this.handleAddTodo.bind(_this);
 	    _this.handleSearch = _this.handleSearch.bind(_this);
@@ -19903,6 +19891,11 @@
 	  }
 
 	  _createClass(ToDoApp, [{
+	    key: 'componentDidUpdate',
+	    value: function componentDidUpdate() {
+	      _TodoAPI2.default.setTodos(this.state.todos);
+	    }
+	  }, {
 	    key: 'handleToggle',
 	    value: function handleToggle(id) {
 	      var updatedTodos = this.state.todos.map(function (todo) {
@@ -20356,15 +20349,44 @@
 
 /***/ },
 /* 174 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	/* eslint-disable no-undef */
+
+	module.exports = {
+	  setTodos: function setTodos(todos) {
+	    if (Array.isArray(todos)) {
+	      localStorage.setItem('todos', JSON.stringify(todos));
+	    }
+	    return todos;
+	  },
+	  getTodos: function getTodos() {
+	    var stringTodos = localStorage.getItem('todos');
+	    var todos = [];
+	    try {
+	      todos = JSON.parse(stringTodos);
+	    } catch (err) {
+	      console.log(err);
+	    }
+	    todos = Array.isArray(todos) ? todos : [];
+
+	    return todos;
+	  }
+	};
+
+/***/ },
+/* 175 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(175);
+	var content = __webpack_require__(176);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(177)(content, {});
+	var update = __webpack_require__(178)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -20381,10 +20403,10 @@
 	}
 
 /***/ },
-/* 175 */
+/* 176 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(176)();
+	exports = module.exports = __webpack_require__(177)();
 	// imports
 
 
@@ -20395,7 +20417,7 @@
 
 
 /***/ },
-/* 176 */
+/* 177 */
 /***/ function(module, exports) {
 
 	/*
@@ -20451,7 +20473,7 @@
 
 
 /***/ },
-/* 177 */
+/* 178 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*

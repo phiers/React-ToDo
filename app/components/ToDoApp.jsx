@@ -2,16 +2,19 @@ import React from 'react';
 /* eslint-disable */
 import TodoList from 'TodoList';
 import TodoAddForm from 'TodoAddForm';
+import TodoSearch from 'TodoSearch';
 /* eslint-enable */
 
 export default class ToDoApp extends React.Component {
   constructor() {
     super();
     this.state = {
+      showCompleted: false,
+      searchText: '',
       todos: [
         {
           id: 1,
-          text: 'Todo app',
+          text: 'Todo app tutorial',
         },
         {
           id: 2,
@@ -28,16 +31,26 @@ export default class ToDoApp extends React.Component {
       ],
     };
     this.handleAddTodo = this.handleAddTodo.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
   }
   handleAddTodo(text) {
     const id = this.state.todos[this.state.todos.length - 1].id + 1;
     const newTodo = [{ id, text }];
     this.setState({ todos: this.state.todos.concat(newTodo) });
   }
+
+  handleSearch(showCompleted, searchText) {
+    this.setState({
+      showCompleted,
+      searchText: searchText.toLowerCase(),
+    });
+  }
   render() {
     const { todos } = this.state;
     return (
       <div>
+        <h1>Todo App</h1>
+        <TodoSearch onSearch={this.handleSearch} />
         <TodoList todos={todos} />
         <TodoAddForm onAddTodo={this.handleAddTodo} />
       </div>

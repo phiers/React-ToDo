@@ -114,7 +114,7 @@
 	// App css
 
 	/* eslint-disable */
-	__webpack_require__(170);
+	__webpack_require__(171);
 	/* eslint-enable */
 
 	_reactDom2.default.render(_react2.default.createElement(_TodoApp2.default, null), document.getElementById('app')); //eslint-disable-line
@@ -19844,7 +19844,7 @@
 
 	var _TodoAddForm2 = _interopRequireDefault(_TodoAddForm);
 
-	var _TodoSearch = __webpack_require__(174);
+	var _TodoSearch = __webpack_require__(170);
 
 	var _TodoSearch2 = _interopRequireDefault(_TodoSearch);
 
@@ -20128,13 +20128,97 @@
 /* 170 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(8);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var TodoSearch = function (_React$Component) {
+	  _inherits(TodoSearch, _React$Component);
+
+	  function TodoSearch() {
+	    _classCallCheck(this, TodoSearch);
+
+	    var _this = _possibleConstructorReturn(this, (TodoSearch.__proto__ || Object.getPrototypeOf(TodoSearch)).call(this));
+
+	    _this.handleSearch = _this.handleSearch.bind(_this);
+	    return _this;
+	  }
+
+	  _createClass(TodoSearch, [{
+	    key: "handleSearch",
+	    value: function handleSearch() {
+	      var showCompleted = this.refs.showCompleted.checked;
+	      var searchText = this.refs.searchText.value;
+
+	      this.props.onSearch(showCompleted, searchText);
+	    }
+	  }, {
+	    key: "render",
+	    value: function render() {
+	      return _react2.default.createElement(
+	        "div",
+	        null,
+	        _react2.default.createElement(
+	          "div",
+	          null,
+	          _react2.default.createElement("input", {
+	            type: "search",
+	            ref: "searchText",
+	            placeholder: "Search todos",
+	            onChange: this.handleSearch
+	          })
+	        ),
+	        _react2.default.createElement(
+	          "div",
+	          null,
+	          _react2.default.createElement(
+	            "label",
+	            null,
+	            _react2.default.createElement("input", { type: "checkbox", ref: "showCompleted", onChange: this.handleSearch }),
+	            "Show Completed"
+	          )
+	        )
+	      );
+	    }
+	  }]);
+
+	  return TodoSearch;
+	}(_react2.default.Component);
+
+	exports.default = TodoSearch;
+
+
+	TodoSearch.propTypes = {
+	  onSearch: _react2.default.PropTypes.func.isRequired
+	};
+
+/***/ },
+/* 171 */
+/***/ function(module, exports, __webpack_require__) {
+
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(171);
+	var content = __webpack_require__(172);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(173)(content, {});
+	var update = __webpack_require__(174)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -20151,10 +20235,10 @@
 	}
 
 /***/ },
-/* 171 */
+/* 172 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(172)();
+	exports = module.exports = __webpack_require__(173)();
 	// imports
 
 
@@ -20165,7 +20249,7 @@
 
 
 /***/ },
-/* 172 */
+/* 173 */
 /***/ function(module, exports) {
 
 	/*
@@ -20221,7 +20305,7 @@
 
 
 /***/ },
-/* 173 */
+/* 174 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -20471,90 +20555,6 @@
 			URL.revokeObjectURL(oldSrc);
 	}
 
-
-/***/ },
-/* 174 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(8);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var TodoSearch = function (_React$Component) {
-	  _inherits(TodoSearch, _React$Component);
-
-	  function TodoSearch() {
-	    _classCallCheck(this, TodoSearch);
-
-	    var _this = _possibleConstructorReturn(this, (TodoSearch.__proto__ || Object.getPrototypeOf(TodoSearch)).call(this));
-
-	    _this.handleSearch = _this.handleSearch.bind(_this);
-	    return _this;
-	  }
-
-	  _createClass(TodoSearch, [{
-	    key: "handleSearch",
-	    value: function handleSearch() {
-	      var showCompleted = this.refs.showCompleted.checked;
-	      var searchText = this.refs.searchText.value;
-
-	      this.props.onSearch(showCompleted, searchText);
-	    }
-	  }, {
-	    key: "render",
-	    value: function render() {
-	      return _react2.default.createElement(
-	        "div",
-	        null,
-	        _react2.default.createElement(
-	          "div",
-	          null,
-	          _react2.default.createElement("input", {
-	            type: "search",
-	            ref: "searchText",
-	            placeholder: "Search todos",
-	            onChange: this.handleSearch
-	          })
-	        ),
-	        _react2.default.createElement(
-	          "div",
-	          null,
-	          _react2.default.createElement(
-	            "label",
-	            null,
-	            _react2.default.createElement("input", { type: "checkbox", ref: "showCompleted", onChange: this.handleSearch }),
-	            "Show Completed"
-	          )
-	        )
-	      );
-	    }
-	  }]);
-
-	  return TodoSearch;
-	}(_react2.default.Component);
-
-	exports.default = TodoSearch;
-
-
-	TodoSearch.propTypes = {
-	  onSearch: _react2.default.PropTypes.func.isRequired
-	};
 
 /***/ }
 /******/ ]);

@@ -114,7 +114,7 @@
 	// App css
 
 	/* eslint-disable */
-	__webpack_require__(171);
+	__webpack_require__(174);
 	/* eslint-enable */
 
 	_reactDom2.default.render(_react2.default.createElement(_TodoApp2.default, null), document.getElementById('app')); //eslint-disable-line
@@ -19836,25 +19836,32 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _TodoList = __webpack_require__(167);
+	var _v = __webpack_require__(178);
+
+	var _v2 = _interopRequireDefault(_v);
+
+	var _TodoList = __webpack_require__(170);
 
 	var _TodoList2 = _interopRequireDefault(_TodoList);
 
-	var _TodoAddForm = __webpack_require__(169);
+	var _TodoAddForm = __webpack_require__(172);
 
 	var _TodoAddForm2 = _interopRequireDefault(_TodoAddForm);
 
-	var _TodoSearch = __webpack_require__(170);
+	var _TodoSearch = __webpack_require__(173);
 
 	var _TodoSearch2 = _interopRequireDefault(_TodoSearch);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 	/* eslint-disable */
 
 
@@ -19872,16 +19879,16 @@
 	      showCompleted: false,
 	      searchText: '',
 	      todos: [{
-	        id: 1,
+	        id: (0, _v2.default)(),
 	        text: 'Todo app tutorial'
 	      }, {
-	        id: 2,
+	        id: (0, _v2.default)(),
 	        text: 'Start MD Viewer'
 	      }, {
-	        id: 3,
+	        id: (0, _v2.default)(),
 	        text: 'Workout'
 	      }, {
-	        id: 4,
+	        id: (0, _v2.default)(),
 	        text: 'Take a shower'
 	      }]
 	    };
@@ -19893,9 +19900,13 @@
 	  _createClass(ToDoApp, [{
 	    key: 'handleAddTodo',
 	    value: function handleAddTodo(text) {
-	      var id = this.state.todos[this.state.todos.length - 1].id + 1;
-	      var newTodo = [{ id: id, text: text }];
-	      this.setState({ todos: this.state.todos.concat(newTodo) });
+	      this.setState({
+	        todos: [].concat(_toConsumableArray(this.state.todos), [{
+	          id: (0, _v2.default)(),
+	          text: text
+	        }])
+	      });
+	      // this.setState({ todos: this.state.todos.concat(newTodo) });
 	    }
 	  }, {
 	    key: 'handleSearch',
@@ -19931,7 +19942,77 @@
 	exports.default = ToDoApp;
 
 /***/ },
-/* 167 */
+/* 167 */,
+/* 168 */
+/***/ function(module, exports) {
+
+	/* WEBPACK VAR INJECTION */(function(global) {// Unique ID creation requires a high quality random # generator.  In the
+	// browser this is a little complicated due to unknown quality of Math.random()
+	// and inconsistent support for the `crypto` API.  We do the best we can via
+	// feature-detection
+	var rng;
+
+	var crypto = global.crypto || global.msCrypto; // for IE 11
+	if (crypto && crypto.getRandomValues) {
+	  // WHATWG crypto RNG - http://wiki.whatwg.org/wiki/Crypto
+	  var rnds8 = new Uint8Array(16);
+	  rng = function whatwgRNG() {
+	    crypto.getRandomValues(rnds8);
+	    return rnds8;
+	  };
+	}
+
+	if (!rng) {
+	  // Math.random()-based (RNG)
+	  //
+	  // If all else fails, use Math.random().  It's fast, but is of unspecified
+	  // quality.
+	  var  rnds = new Array(16);
+	  rng = function() {
+	    for (var i = 0, r; i < 16; i++) {
+	      if ((i & 0x03) === 0) r = Math.random() * 0x100000000;
+	      rnds[i] = r >>> ((i & 0x03) << 3) & 0xff;
+	    }
+
+	    return rnds;
+	  };
+	}
+
+	module.exports = rng;
+
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
+
+/***/ },
+/* 169 */
+/***/ function(module, exports) {
+
+	/**
+	 * Convert array of 16 byte values to UUID string format of the form:
+	 * XXXXXXXX-XXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+	 */
+	var byteToHex = [];
+	for (var i = 0; i < 256; ++i) {
+	  byteToHex[i] = (i + 0x100).toString(16).substr(1);
+	}
+
+	function bytesToUuid(buf, offset) {
+	  var i = offset || 0;
+	  var bth = byteToHex;
+	  return  bth[buf[i++]] + bth[buf[i++]] +
+	          bth[buf[i++]] + bth[buf[i++]] + '-' +
+	          bth[buf[i++]] + bth[buf[i++]] + '-' +
+	          bth[buf[i++]] + bth[buf[i++]] + '-' +
+	          bth[buf[i++]] + bth[buf[i++]] + '-' +
+	          bth[buf[i++]] + bth[buf[i++]] +
+	          bth[buf[i++]] + bth[buf[i++]] +
+	          bth[buf[i++]] + bth[buf[i++]];
+	}
+
+	module.exports = bytesToUuid;
+
+
+/***/ },
+/* 170 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -19948,7 +20029,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Todo = __webpack_require__(168);
+	var _Todo = __webpack_require__(171);
 
 	var _Todo2 = _interopRequireDefault(_Todo);
 
@@ -19997,7 +20078,7 @@
 	exports.default = TodoList;
 
 /***/ },
-/* 168 */
+/* 171 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -20052,7 +20133,7 @@
 	exports.default = Todo;
 
 /***/ },
-/* 169 */
+/* 172 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -20125,7 +20206,7 @@
 	exports.default = TodoAddForm;
 
 /***/ },
-/* 170 */
+/* 173 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -20209,16 +20290,16 @@
 	};
 
 /***/ },
-/* 171 */
+/* 174 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(172);
+	var content = __webpack_require__(175);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(174)(content, {});
+	var update = __webpack_require__(177)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -20235,10 +20316,10 @@
 	}
 
 /***/ },
-/* 172 */
+/* 175 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(173)();
+	exports = module.exports = __webpack_require__(176)();
 	// imports
 
 
@@ -20249,7 +20330,7 @@
 
 
 /***/ },
-/* 173 */
+/* 176 */
 /***/ function(module, exports) {
 
 	/*
@@ -20305,7 +20386,7 @@
 
 
 /***/ },
-/* 174 */
+/* 177 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -20554,6 +20635,41 @@
 		if(oldSrc)
 			URL.revokeObjectURL(oldSrc);
 	}
+
+
+/***/ },
+/* 178 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var rng = __webpack_require__(168);
+	var bytesToUuid = __webpack_require__(169);
+
+	function v4(options, buf, offset) {
+	  var i = buf && offset || 0;
+
+	  if (typeof(options) == 'string') {
+	    buf = options == 'binary' ? new Array(16) : null;
+	    options = null;
+	  }
+	  options = options || {};
+
+	  var rnds = options.random || (options.rng || rng)();
+
+	  // Per 4.4, set bits for version and `clock_seq_hi_and_reserved`
+	  rnds[6] = (rnds[6] & 0x0f) | 0x40;
+	  rnds[8] = (rnds[8] & 0x3f) | 0x80;
+
+	  // Copy bytes to buffer, if provided
+	  if (buf) {
+	    for (var ii = 0; ii < 16; ++ii) {
+	      buf[i + ii] = rnds[ii];
+	    }
+	  }
+
+	  return buf || bytesToUuid(rnds);
+	}
+
+	module.exports = v4;
 
 
 /***/ }

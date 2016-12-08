@@ -1,4 +1,6 @@
 import React from 'react';
+import uuidV4 from 'uuid/v4';
+
 /* eslint-disable */
 import TodoList from 'TodoList';
 import TodoAddForm from 'TodoAddForm';
@@ -13,19 +15,19 @@ export default class ToDoApp extends React.Component {
       searchText: '',
       todos: [
         {
-          id: 1,
+          id: uuidV4(),
           text: 'Todo app tutorial',
         },
         {
-          id: 2,
+          id: uuidV4(),
           text: 'Start MD Viewer',
         },
         {
-          id: 3,
+          id: uuidV4(),
           text: 'Workout',
         },
         {
-          id: 4,
+          id: uuidV4(),
           text: 'Take a shower',
         },
       ],
@@ -34,9 +36,16 @@ export default class ToDoApp extends React.Component {
     this.handleSearch = this.handleSearch.bind(this);
   }
   handleAddTodo(text) {
-    const id = this.state.todos[this.state.todos.length - 1].id + 1;
-    const newTodo = [{ id, text }];
-    this.setState({ todos: this.state.todos.concat(newTodo) });
+    this.setState({
+      todos: [
+        ...this.state.todos,
+        {
+          id: uuidV4(),
+          text,
+        },
+      ],
+    });
+    // this.setState({ todos: this.state.todos.concat(newTodo) });
   }
 
   handleSearch(showCompleted, searchText) {

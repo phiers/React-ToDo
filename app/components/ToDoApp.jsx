@@ -1,5 +1,6 @@
 import React from 'react';
 import uuidV4 from 'uuid/v4';
+import moment from 'moment';
 
 /* eslint-disable */
 import TodoList from 'TodoList';
@@ -28,6 +29,7 @@ export default class ToDoApp extends React.Component {
     const updatedTodos = this.state.todos.map((todo) => {
       if (todo.id === id) {
         todo.completed = !todo.completed; // eslint-disable-line
+        todo.completedAt = todo.completed ? moment().unix() : undefined; // eslint-disable-line
       }
       return todo;
     });
@@ -41,6 +43,8 @@ export default class ToDoApp extends React.Component {
           id: uuidV4(),
           text,
           completed: false,
+          createdAt: moment().unix(),
+          completedAt: undefined,
         },
       ],
     });

@@ -13,7 +13,7 @@ export default class TodoSearch extends React.Component {
   }
   render() {
     return (
-      <div>
+      <div className="container__header">
         <div>
           <input
             type="search"
@@ -23,8 +23,13 @@ export default class TodoSearch extends React.Component {
           />
         </div>
         <div>
-          <label>
-            <input type="checkbox" ref="showCompleted" onChange={this.handleSearch} />
+          <label htmlFor="show-completed">
+            <input
+              id="show-completed"
+              type="checkbox"
+              ref="showCompleted"
+              onChange={this.handleSearch}
+            />
              Show Completed
           </label>
         </div>

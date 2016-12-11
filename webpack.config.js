@@ -26,6 +26,7 @@ module.exports = {
       'node_modules',
       './app/components',
       './app/api',
+      './app/actions',
     ],
     alias: { // set paths to files I'll be requiring
       applicationStyles: 'app/styles/app.scss',

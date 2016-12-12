@@ -117,14 +117,7 @@
 	/* eslint-disable */
 	var store = __webpack_require__(316).configure();
 
-	store.subscribe(function () {
-	  console.log('new state', store.getState());
-	});
-
-	store.dispatch(_actions2.default.addTodo('test dispatch'));
-	store.dispatch(_actions2.default.addTodo('test dispatch 2'));
-	store.dispatch(_actions2.default.setSearchText('test'));
-	store.dispatch(_actions2.default.toggleShowCompleted());
+	store.subscribe(function () {});
 	// Load foundation
 
 	$(document).foundation();
@@ -21615,15 +21608,15 @@
 
 	var _TodoList2 = _interopRequireDefault(_TodoList);
 
-	var _TodoAddForm = __webpack_require__(313);
+	var _TodoAddForm = __webpack_require__(314);
 
 	var _TodoAddForm2 = _interopRequireDefault(_TodoAddForm);
 
-	var _TodoSearch = __webpack_require__(314);
+	var _TodoSearch = __webpack_require__(315);
 
 	var _TodoSearch2 = _interopRequireDefault(_TodoSearch);
 
-	var _TodoAPI = __webpack_require__(315);
+	var _TodoAPI = __webpack_require__(313);
 
 	var _TodoAPI2 = _interopRequireDefault(_TodoAPI);
 
@@ -36740,6 +36733,10 @@
 
 	var _Todo2 = _interopRequireDefault(_Todo);
 
+	var _TodoAPI = __webpack_require__(313);
+
+	var _TodoAPI2 = _interopRequireDefault(_TodoAPI);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -36765,7 +36762,10 @@
 	  _createClass(TodoList, [{
 	    key: 'render',
 	    value: function render() {
-	      var todos = this.props.todos;
+	      var _props = this.props,
+	          todos = _props.todos,
+	          showCompleted = _props.showCompleted,
+	          searchText = _props.searchText;
 
 	      var renderTodos = function renderTodos() {
 	        if (todos.length === 0) {
@@ -36775,7 +36775,7 @@
 	            'Nothing to do...'
 	          );
 	        }
-	        return todos.map(function (todo) {
+	        return _TodoAPI2.default.filterTodos(todos, showCompleted, searchText).map(function (todo) {
 	          return _react2.default.createElement(_Todo2.default, _extends({ key: todo.id }, todo));
 	        });
 	      };
@@ -36791,14 +36791,15 @@
 	}(_react2.default.Component);
 
 	exports.default = (0, _reactRedux.connect)(function (state) {
-	  return {
-	    todos: state.todos
-	  };
+	  return state;
 	})(TodoList);
 
 
 	TodoList.propTypes = {
-	  todos: _react2.default.PropTypes.array };
+	  todos: _react2.default.PropTypes.array, //eslint-disable-line
+	  searchText: _react2.default.PropTypes.string,
+	  showCompleted: _react2.default.PropTypes.bool
+	};
 
 /***/ },
 /* 311 */
@@ -36954,6 +36955,62 @@
 
 /***/ },
 /* 313 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	/* eslint-disable no-undef */
+
+	module.exports = {
+	  setTodos: function setTodos(todos) {
+	    if (Array.isArray(todos)) {
+	      localStorage.setItem('todos', JSON.stringify(todos));
+	    }
+	    return todos;
+	  },
+	  getTodos: function getTodos() {
+	    var stringTodos = localStorage.getItem('todos');
+	    var todos = [];
+	    try {
+	      todos = JSON.parse(stringTodos);
+	    } catch (err) {
+	      console.log(err);
+	    }
+	    todos = Array.isArray(todos) ? todos : [];
+
+	    return todos;
+	  },
+	  filterTodos: function filterTodos(todos, showCompleted, searchText) {
+	    var filteredTodos = todos;
+	    // Filter out completed items unless showCompleted is true
+	    filteredTodos = filteredTodos.filter(function (todo) {
+	      return !todo.completed || showCompleted;
+	    });
+	    // Filter by searchText
+	    filteredTodos = filteredTodos.filter(function (todo) {
+	      if (searchText) {
+	        if (todo.text.toLowerCase().indexOf(searchText) !== -1) {
+	          return true;
+	        }
+	        return false;
+	      }
+	      return true;
+	    });
+	    // sort todos with incomplete first
+	    filteredTodos.sort(function (a, b) {
+	      if (!a.completed && b.completed) {
+	        return -1;
+	      } else if (a.completed && !b.completed) {
+	        return 1;
+	      }
+	      return 0;
+	    });
+	    return filteredTodos;
+	  }
+	};
+
+/***/ },
+/* 314 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37042,20 +37099,27 @@
 	};
 
 /***/ },
-/* 314 */
+/* 315 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	exports.TodoSearch = undefined;
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _react = __webpack_require__(8);
 
 	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRedux = __webpack_require__(166);
+
+	var _actions = __webpack_require__(312);
+
+	var _actions2 = _interopRequireDefault(_actions);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -37065,55 +37129,56 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var TodoSearch = function (_React$Component) {
+	// eslint-disable-line
+
+	var TodoSearch = exports.TodoSearch = function (_React$Component) {
 	  _inherits(TodoSearch, _React$Component);
 
 	  function TodoSearch() {
 	    _classCallCheck(this, TodoSearch);
 
-	    var _this = _possibleConstructorReturn(this, (TodoSearch.__proto__ || Object.getPrototypeOf(TodoSearch)).call(this));
-
-	    _this.handleSearch = _this.handleSearch.bind(_this);
-	    return _this;
+	    return _possibleConstructorReturn(this, (TodoSearch.__proto__ || Object.getPrototypeOf(TodoSearch)).apply(this, arguments));
 	  }
 
 	  _createClass(TodoSearch, [{
-	    key: "handleSearch",
-	    value: function handleSearch() {
-	      var showCompleted = this.refs.showCompleted.checked;
-	      var searchText = this.refs.searchText.value;
-
-	      this.props.onSearch(showCompleted, searchText);
-	    }
-	  }, {
-	    key: "render",
+	    key: 'render',
 	    value: function render() {
+	      var _props = this.props,
+	          dispatch = _props.dispatch,
+	          showCompleted = _props.showCompleted,
+	          searchText = _props.searchText;
+
 	      return _react2.default.createElement(
-	        "div",
-	        { className: "container__header" },
+	        'div',
+	        { className: 'container__header' },
 	        _react2.default.createElement(
-	          "div",
+	          'div',
 	          null,
-	          _react2.default.createElement("input", {
-	            type: "search",
-	            ref: "searchText",
-	            placeholder: "Search todos",
-	            onChange: this.handleSearch
+	          _react2.default.createElement('input', {
+	            type: 'search',
+	            placeholder: 'Search todos',
+	            value: searchText,
+	            onChange: function onChange(evt) {
+	              var searchItem = evt.target.value;
+	              dispatch(_actions2.default.setSearchText(searchItem));
+	            }
 	          })
 	        ),
 	        _react2.default.createElement(
-	          "div",
+	          'div',
 	          null,
 	          _react2.default.createElement(
-	            "label",
-	            { htmlFor: "show-completed" },
-	            _react2.default.createElement("input", {
-	              id: "show-completed",
-	              type: "checkbox",
-	              ref: "showCompleted",
-	              onChange: this.handleSearch
+	            'label',
+	            { htmlFor: 'show-completed' },
+	            _react2.default.createElement('input', {
+	              id: 'show-completed',
+	              type: 'checkbox',
+	              checked: showCompleted,
+	              onChange: function onChange() {
+	                return dispatch(_actions2.default.toggleShowCompleted());
+	              }
 	            }),
-	            "Show Completed"
+	            'Show Completed'
 	          )
 	        )
 	      );
@@ -37123,67 +37188,19 @@
 	  return TodoSearch;
 	}(_react2.default.Component);
 
-	exports.default = TodoSearch;
+	exports.default = (0, _reactRedux.connect)(function (state) {
+	  //eslint-disable-line
+	  return {
+	    showCompleted: state.showCompleted,
+	    searchText: state.searchText
+	  };
+	})(TodoSearch);
 
 
 	TodoSearch.propTypes = {
-	  onSearch: _react2.default.PropTypes.func.isRequired
-	};
-
-/***/ },
-/* 315 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	/* eslint-disable no-undef */
-
-	module.exports = {
-	  setTodos: function setTodos(todos) {
-	    if (Array.isArray(todos)) {
-	      localStorage.setItem('todos', JSON.stringify(todos));
-	    }
-	    return todos;
-	  },
-	  getTodos: function getTodos() {
-	    var stringTodos = localStorage.getItem('todos');
-	    var todos = [];
-	    try {
-	      todos = JSON.parse(stringTodos);
-	    } catch (err) {
-	      console.log(err);
-	    }
-	    todos = Array.isArray(todos) ? todos : [];
-
-	    return todos;
-	  },
-	  filterTodos: function filterTodos(todos, showCompleted, searchText) {
-	    var filteredTodos = todos;
-	    // Filter out completed items unless showCompleted is true
-	    filteredTodos = filteredTodos.filter(function (todo) {
-	      return !todo.completed || showCompleted;
-	    });
-	    // Filter by searchText
-	    filteredTodos = filteredTodos.filter(function (todo) {
-	      if (searchText) {
-	        if (todo.text.toLowerCase().indexOf(searchText) !== -1) {
-	          return true;
-	        }
-	        return false;
-	      }
-	      return true;
-	    });
-	    // sort todos with incomplete first
-	    filteredTodos.sort(function (a, b) {
-	      if (!a.completed && b.completed) {
-	        return -1;
-	      } else if (a.completed && !b.completed) {
-	        return 1;
-	      }
-	      return 0;
-	    });
-	    return filteredTodos;
-	  }
+	  dispatch: _react2.default.PropTypes.func,
+	  showCompleted: _react2.default.PropTypes.bool,
+	  searchText: _react2.default.PropTypes.string
 	};
 
 /***/ },

@@ -34,7 +34,7 @@ const reducers = {
           },
         ];
       case 'TOGGLE_TODO':
-        return state.map((todo) => {
+        return state.map((todo) => { // eslint-disable-line
           if (todo.id === action.id) {
             const completed = !todo.completed;
 

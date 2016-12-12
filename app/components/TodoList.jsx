@@ -1,9 +1,11 @@
 import React from 'react';
+import { connect } from 'react-redux';
 /* eslint-disable */
 import Todo from 'Todo';
 /* eslint-enable */
+/* eslint-disable arrow-body-style */
 
-export default class TodoList extends React.Component {
+export class TodoList extends React.Component {
 
   render() {
     const { todos } = this.props;
@@ -15,7 +17,7 @@ export default class TodoList extends React.Component {
       }
       return todos.map((todo) => {
         return (
-          <Todo key={todo.id} {...todo} onToggle={this.props.onToggle} />
+          <Todo key={todo.id} {...todo} />
         );
       });
     };
@@ -26,3 +28,15 @@ export default class TodoList extends React.Component {
     );
   }
 }
+
+export default connect(
+  (state) => {
+    return {
+      todos: state.todos,
+    };
+  },
+)(TodoList);
+
+TodoList.propTypes = {
+  todos: React.PropTypes.array, //eslint-disable-line
+};

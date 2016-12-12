@@ -1,13 +1,13 @@
 import { createStore, combineReducers, compose } from 'redux';
-import reducers from 'reducers'; // eslint-disable-line
+import { searchTextReducer, showCompletedReducer, todosReducer } from 'reducers'; // eslint-disable-line
 
-export const configure = () => {
+export const configure = (initialState = {}) => {
   const reducer = combineReducers({
-    searchText: reducers.searchTextReducer,
-    showCompleted: reducers.showCompletedReducer,
-    todos: reducers.todosReducer,
+    searchText: searchTextReducer,
+    showCompleted: showCompletedReducer,
+    todos: todosReducer,
   });
-  const store = createStore(reducer, compose(
+  const store = createStore(reducer, initialState, compose(
     window.devToolsExtension ? window.devToolsExtension() : f => f,
   ));
   return store;

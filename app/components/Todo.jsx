@@ -1,10 +1,12 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import moment from 'moment';
+import actions from 'actions'; //eslint-disable-line
 
-export default class Todo extends React.Component {
+export class Todo extends React.Component {
 
   render() {
-    const { id, text, completed, createdAt, completedAt } = this.props;
+    const { id, text, completed, createdAt, completedAt, dispatch } = this.props;
     const todoClassName = completed ? 'todo todo-completed' : 'todo';
     const renderDate = () => {
       let message = 'Created ';
@@ -21,10 +23,10 @@ export default class Todo extends React.Component {
           <input
             type="checkbox"
             checked={completed}
-            onChange={() => { this.props.onToggle(id); }}
+            onChange={() => { dispatch(actions.toggleTodo(id)); }}
           />
         </div>
-        <div onClick={() => { this.props.onToggle(id); }} >
+        <div onClick={() => { dispatch(actions.toggleTodo(id)); }} >
           <p>{text}</p>
           <p className="todo__subtext">{ renderDate() }</p>
         </div>
@@ -33,11 +35,13 @@ export default class Todo extends React.Component {
   }
 }
 
+export default connect()(Todo);  // this makes dispatch avail on props
+
 Todo.propTypes = {
   id: React.PropTypes.string.isRequired,
   text: React.PropTypes.string.isRequired,
   completed: React.PropTypes.bool.isRequired,
-  onToggle: React.PropTypes.func,
+  dispatch: React.PropTypes.func,
   createdAt: React.PropTypes.number,
   completedAt: React.PropTypes.number,
 };

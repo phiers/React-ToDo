@@ -1,6 +1,9 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
-export default class TodoAddForm extends React.Component {
+import actions from 'actions'; // eslint-disable-line
+
+export class TodoAddForm extends React.Component {
   constructor() {
     super();
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -8,10 +11,11 @@ export default class TodoAddForm extends React.Component {
 
   handleSubmit(evt) {
     evt.preventDefault();
-    const todo = this.refs.todo.value;
-    if (todo.length > 0) {
+    const { dispatch } = this.props;
+    const todoText = this.refs.todo.value;
+    if (todoText.length > 0) {
       this.refs.todo.value = '';
-      this.props.onAddTodo(todo);
+      dispatch(actions.addTodo(todoText));
     } else {
       this.refs.todo.focus();
     }
@@ -28,3 +32,9 @@ export default class TodoAddForm extends React.Component {
     );
   }
 }
+
+export default connect()(TodoAddForm);
+
+TodoAddForm.propTypes = {
+  dispatch: React.PropTypes.func,
+};

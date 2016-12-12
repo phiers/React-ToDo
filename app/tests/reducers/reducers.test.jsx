@@ -1,6 +1,6 @@
 /* eslint-disable */
 import expect from 'expect';
-import reducers from 'reducers';
+import { searchTextReducer, showCompletedReducer, todosReducer } from 'reducers';
 import df from 'deep-freeze-strict';
 /* eslint-enable */
 
@@ -12,7 +12,7 @@ describe('Reducers', () => {
         type: 'SET_SEARCH_TEXT',
         searchText: 'todo',
       };
-      const res = reducers.searchTextReducer(df(''), df(action));
+      const res = searchTextReducer(df(''), df(action));
       expect(res).toEqual(action.searchText);
     });
   });
@@ -21,7 +21,7 @@ describe('Reducers', () => {
       const action = {
         type: 'TOGGLE_SHOW_COMPLETED',
       };
-      const res = reducers.showCompletedReducer(df(false), df(action));
+      const res = showCompletedReducer(df(false), df(action));
       expect(res).toEqual(true);
     });
   });
@@ -31,7 +31,7 @@ describe('Reducers', () => {
         type: 'ADD_TODO',
         text: 'new to do',
       };
-      const res = reducers.todosReducer(df([]), df(action));
+      const res = todosReducer(df([]), df(action));
       expect(res.length).toEqual(1);
       expect(res[0].text).toEqual(action.text);
     });
@@ -49,7 +49,7 @@ describe('Reducers', () => {
           completedAt: undefined,
         },
       ];
-      const res = reducers.todosReducer(df(todos), df(action));
+      const res = todosReducer(df(todos), df(action));
       const todo = res[0];
       expect(todo.completed).toEqual(true);
       expect(todo.completedAt).toBeA('number');

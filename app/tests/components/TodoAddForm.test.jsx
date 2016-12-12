@@ -5,24 +5,29 @@ import expect from 'expect';
 import $ from 'jQuery';
 import TestUtils from 'react-addons-test-utils';
 
-import TodoAddForm from 'TodoAddForm';
+import { TodoAddForm } from 'TodoAddForm';
 /* eslint-enable */
 /* eslint-disable no-undef */
 describe('TodoAddForm', () => {
   it('should exist', () => {
     expect(TodoAddForm).toExist();
   });
-  it('should call onAddTodo prop if text entered', () => {
+
+  it('should dispatch ADD_TODO when valid text entered', () => {
     const spy = expect.createSpy();
-    const todoAddForm = TestUtils.renderIntoDocument(<TodoAddForm onAddTodo={spy} />);
+    const action = {
+      type: 'ADD_TODO',
+      text: 'testing add',
+    };
+    const todoAddForm = TestUtils.renderIntoDocument(<TodoAddForm dispatch={spy} />);
     const $el = $(ReactDOM.findDOMNode(todoAddForm));
-    todoAddForm.refs.todo.value = 'test';
+    todoAddForm.refs.todo.value = 'testing add';
     TestUtils.Simulate.submit($el.find('form')[0]);
-    expect(spy).toHaveBeenCalledWith('test');
+    expect(spy).toHaveBeenCalledWith(action);
   });
-  it('should NOT call onAddTodo prop if no text entered', () => {
+  it('should NOT dispatch ADD_TODO no text entered', () => {
     const spy = expect.createSpy();
-    const todoAddForm = TestUtils.renderIntoDocument(<TodoAddForm onAddTodo={spy} />);
+    const todoAddForm = TestUtils.renderIntoDocument(<TodoAddForm dispatch={spy} />);
     const $el = $(ReactDOM.findDOMNode(todoAddForm));
     todoAddForm.refs.todo.value = '';
     TestUtils.Simulate.submit($el.find('form')[0]);

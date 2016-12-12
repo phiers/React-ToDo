@@ -2,7 +2,7 @@
 
 import expect from 'expect';
 
-import { setSearchText, addTodo, toggleShowCompleted, toggleTodo } from 'actions';
+import actions from 'actions';
 /* eslint-enable */
 /* eslint-disable no-undef */
 
@@ -12,7 +12,7 @@ describe('Actions', () => {
       type: 'SET_SEARCH_TEXT',
       searchText: 'some text',
     };
-    const res = setSearchText(action.searchText);
+    const res = actions.setSearchText(action.searchText);
     expect(res).toEqual(action);
   });
 
@@ -21,7 +21,7 @@ describe('Actions', () => {
       type: 'ADD_TODO',
       text: 'New todo',
     };
-    const res = addTodo(action.text);
+    const res = actions.addTodo(action.text);
     expect(res).toEqual(action);
   });
 
@@ -29,7 +29,7 @@ describe('Actions', () => {
     const action = {
       type: 'TOGGLE_SHOW_COMPLETED',
     };
-    const res = toggleShowCompleted();
+    const res = actions.toggleShowCompleted();
     expect(res).toEqual(action);
   });
 
@@ -38,7 +38,7 @@ describe('Actions', () => {
       type: 'TOGGLE_TODO',
       id: 2,
     };
-    const res = toggleTodo(action.id);
+    const res = actions.toggleTodo(action.id);
     expect(res).toEqual(action);
   });
 });

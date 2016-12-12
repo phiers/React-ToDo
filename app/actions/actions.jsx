@@ -19,6 +19,13 @@ const actions = {
     };
   },
 
+  addTodos(todos) {
+    return {
+      type: 'ADD_TODOS',
+      todos,
+    };
+  },
+
   toggleTodo(id) {
     return {
       type: 'TOGGLE_TODO',

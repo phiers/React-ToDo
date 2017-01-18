@@ -19,7 +19,6 @@ describe('TodoSearch', () => {
     };
     const spy = expect.createSpy();
     const todoSearch = TestUtils.renderIntoDocument(<TodoSearch dispatch={spy} />);
-    console.log(todoSearch);
     todoSearch.evt.target.value = searchText;
     TestUtils.Simulate.change(todoSearch.evt.target);
     expect(spy).toHaveBeenCalledWith(action);

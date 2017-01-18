@@ -17,6 +17,7 @@ export class Todo extends React.Component {
       }
       return message + moment.unix(timeStamp).format('MMM Do YYYY @ h:mm a');
     };
+    /* eslint-disable jsx-a11y/no-static-element-interactions */
     return (
       <div className={todoClassName}>
         <div>

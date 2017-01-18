@@ -35,13 +35,13 @@ describe('TodoList', () => {
     ];
     const todoObject = { todos };
     const testStore = createStore(todosReducer, todoObject);
-    const ToDoListContainer = connect(state => state)(TodoList);
+    const TodoListContainer = connect(state => state)(TodoList);
     const provider = TestUtils.renderIntoDocument(
       <Provider store={testStore} >
-        <ToDoListContainer />
+        <TodoListContainer />
       </Provider >,
     );
-    const todoList = TestUtils.scryRenderedComponentsWithType(provider, ToDoListContainer)[0];
+    const todoList = TestUtils.scryRenderedComponentsWithType(provider, TodoListContainer)[0];
     const todosComponents = TestUtils.scryRenderedComponentsWithType(todoList, ConnectedTodo);
 
     expect(todosComponents.length).toBe(todos.length);

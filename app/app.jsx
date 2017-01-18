@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 /* eslint-disable */
-import ToDoApp from 'TodoApp';
+import TodoApp from 'TodoApp';
 import * as actions from 'actions';
 import store from 'configureStore';
 import TodoAPI from 'TodoAPI';
@@ -19,6 +19,6 @@ require('style!css!sass!applicationStyles');
 
 ReactDOM.render(
   <Provider store={store} >
-    <ToDoApp />
+    <TodoApp />
   </Provider >,
     document.getElementById('app')); //eslint-disable-line

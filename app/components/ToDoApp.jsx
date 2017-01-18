@@ -8,7 +8,7 @@ import TodoAddForm from 'TodoAddForm';
 import TodoSearch from 'TodoSearch';
 /* eslint-enable */
 
-export default class ToDoApp extends React.Component {
+export default class TodoApp extends React.Component {
   render() {
     return (
       <div>

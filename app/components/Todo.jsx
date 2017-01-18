@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import actions from 'actions'; //eslint-disable-line
+import * as actions from 'actions'; //eslint-disable-line
 
 export class Todo extends React.Component {
 
@@ -23,10 +23,10 @@ export class Todo extends React.Component {
           <input
             type="checkbox"
             checked={completed}
-            onChange={() => { dispatch(actions.toggleTodo(id)); }}
+            onChange={() => { dispatch(actions.startToggleTodo(id, !completed)); }}
           />
         </div>
-        <div onClick={() => { dispatch(actions.toggleTodo(id)); }} >
+        <div onClick={() => { dispatch(actions.startToggleTodo(id, !completed)); }} >
           <p>{text}</p>
           <p className="todo__subtext">{ renderDate() }</p>
         </div>

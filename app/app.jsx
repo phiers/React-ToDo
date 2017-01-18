@@ -3,18 +3,13 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 /* eslint-disable */
 import ToDoApp from 'TodoApp';
-import actions from 'actions';
-
-const store = require('configureStore').configure();
+import * as actions from 'actions';
+import store from 'configureStore';
 import TodoAPI from 'TodoAPI';
 
-store.subscribe(() => {
-  const state = store.getState();
-  TodoAPI.setTodos(state.todos);
-});
+// fetch data from firebase
+store.dispatch(actions.startFetchTodos());
 
-const initialTodos = TodoAPI.getTodos();
-store.dispatch(actions.addTodos(initialTodos));
 // Load foundation
 
 $(document).foundation();

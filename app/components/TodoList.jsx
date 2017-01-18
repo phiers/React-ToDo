@@ -31,6 +31,8 @@ export class TodoList extends React.Component {
 }
 
 export default connect(
+  // this function is mapStateToProps, the first argument of connect,
+  // but just written here without separate variable declaration
   (state) => {
     return state;
   },

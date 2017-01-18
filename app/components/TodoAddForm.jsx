@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import actions from 'actions'; // eslint-disable-line
+import * as actions from 'actions'; // eslint-disable-line
 
 export class TodoAddForm extends React.Component {
   constructor() {
@@ -15,7 +15,7 @@ export class TodoAddForm extends React.Component {
     const todoText = this.refs.todo.value;
     if (todoText.length > 0) {
       this.refs.todo.value = '';
-      dispatch(actions.addTodo(todoText));
+      dispatch(actions.startAddTodo(todoText));
     } else {
       this.refs.todo.focus();
     }

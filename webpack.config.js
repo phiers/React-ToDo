@@ -29,6 +29,7 @@ module.exports = {
       './app/actions',
       './app/reducers',
       './app/store',
+      './app/firebase',
     ],
     alias: { // set paths to files I'll be requiring
       applicationStyles: 'app/styles/app.scss',

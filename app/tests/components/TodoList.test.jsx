@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import { Provider, connect } from 'react-redux';
 /* eslint-disable */
 import expect from 'expect';
 import $ from 'jQuery';
 import TestUtils from 'react-addons-test-utils';
-
-import { configure } from 'configureStore';
-import ConnectedTodoList, { TodoList } from 'TodoList';
+import { todosReducer }  from 'reducers';
+import { TodoList } from 'TodoList';
 import ConnectedTodo, { Todo } from 'Todo';
 /* eslint-enable */
 /* eslint-disable no-undef */
@@ -33,15 +33,15 @@ describe('TodoList', () => {
         createdAt: 125,
       },
     ];
-    const store = configure({
-      todos,
-    });
+    const todoObject = { todos };
+    const testStore = createStore(todosReducer, todoObject);
+    const ToDoListContainer = connect(state => state)(TodoList);
     const provider = TestUtils.renderIntoDocument(
-      <Provider store={store} >
-        <ConnectedTodoList />
+      <Provider store={testStore} >
+        <ToDoListContainer />
       </Provider >,
     );
-    const todoList = TestUtils.scryRenderedComponentsWithType(provider, ConnectedTodoList)[0];
+    const todoList = TestUtils.scryRenderedComponentsWithType(provider, ToDoListContainer)[0];
     const todosComponents = TestUtils.scryRenderedComponentsWithType(todoList, ConnectedTodo);
 
     expect(todosComponents.length).toBe(todos.length);

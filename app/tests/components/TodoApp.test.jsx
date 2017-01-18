@@ -6,7 +6,7 @@ import expect from 'expect';
 import $ from 'jQuery';
 import TestUtils from 'react-addons-test-utils';
 
-import { configure } from 'configureStore';
+import store from 'configureStore';
 import TodoApp from 'TodoApp';
 import TodoList from 'TodoList';
 /* eslint-enable */
@@ -17,7 +17,6 @@ describe('TodoApp', () => {
     expect(TodoApp).toExist();
   });
   it('should render TodoList', () => {
-    const store = configure();
     const provider = TestUtils.renderIntoDocument(
       <Provider store={store} >
         <TodoApp />

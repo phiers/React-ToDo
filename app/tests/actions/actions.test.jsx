@@ -2,7 +2,7 @@
 
 import expect from 'expect';
 
-import actions from 'actions';
+import * as actions from 'actions';
 /* eslint-enable */
 /* eslint-disable no-undef */
 
@@ -19,9 +19,14 @@ describe('Actions', () => {
   it('should generate addTodo action', () => {
     const action = {
       type: 'ADD_TODO',
-      text: 'New todo',
+      todo: {
+        id: 'abc123',
+        text: 'Test todo',
+        completed: false,
+        createdAt: 949392339,
+      },
     };
-    const res = actions.addTodo(action.text);
+    const res = actions.addTodo(action.todo);
     expect(res).toEqual(action);
   });
 

@@ -1,0 +1,12 @@
+.page-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 1rem 1rem 0 0;
+
+  a {
+    color: white;
+    border: 1px solid white;
+    border-radius: 10px;
+    padding: 0 .5rem;
+  }
+}

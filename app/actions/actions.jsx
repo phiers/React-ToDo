@@ -84,3 +84,15 @@ export function startToggleTodo(id, completed) {
     });
   };
 }
+
+export function startLogin(provider) {
+  return (dispatch, getState) => firebase.auth().signInWithPopup(provider).then((result) => {
+    console.log(result);
+  }, (error) => {
+    console.log('unable to authorize', error);
+  });
+}
+
+export function startLogout() {
+  return (dispatch, getState) => firebase.auth().signOut();
+}

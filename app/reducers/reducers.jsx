@@ -1,4 +1,3 @@
-import moment from 'moment';
 
 export const searchTextReducer = (state = '', action) => {
   switch (action.type) {

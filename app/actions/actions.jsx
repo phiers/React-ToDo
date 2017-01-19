@@ -1,4 +1,4 @@
-import firebase, { firebaseRef } from 'index'; // eslint-disable-line
+import firebase, { firebaseRef } from 'firebaseConfig'; // eslint-disable-line
 import moment from 'moment';
 
 export function setSearchText(searchText) {
@@ -87,7 +87,9 @@ export function startToggleTodo(id, completed) {
 
 export function startLogin(provider) {
   return (dispatch, getState) => firebase.auth().signInWithPopup(provider).then((result) => {
-    console.log(result);
+    const token = result.credential.accessToken;
+    const user = result.user;
+    console.log(user);
   }, (error) => {
     console.log('unable to authorize', error);
   });

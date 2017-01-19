@@ -1,20 +1,26 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Route, Router, IndexRoute, browserHistory } from 'react-router';
 import { Provider } from 'react-redux';
+import { browserHistory } from 'react-router';
+
 /* eslint-disable */
-import TodoApp from 'TodoApp';
-import Login from 'Login';
-import Main from 'Main';
+import firebase from 'firebaseConfig';
 import * as actions from 'actions';
 import store from 'configureStore';
-import TodoAPI from 'TodoAPI';
-
+import routes from 'routes';
+/* eslint-enable */
+firebase.auth().onAuthStateChanged((user) => {
+  if (user) {
+    browserHistory.push('/todos');
+  } else {
+    browserHistory.push('/');
+  }
+});
 // fetch data from firebase
 store.dispatch(actions.startFetchTodos());
 
 // Load foundation
-
+/* eslint-disable */
 $(document).foundation();
 // App css
 require('style!css!sass!applicationStyles');
@@ -22,11 +28,6 @@ require('style!css!sass!applicationStyles');
 
 ReactDOM.render(
   <Provider store={store} >
-    <Router history={browserHistory}>
-      <Route path="/" component={Main}>
-        <Route path="todos" component={TodoApp} />
-        <IndexRoute component={Login} />
-      </Route>
-    </Router>
+    {routes}
   </Provider >,
     document.getElementById('app')); //eslint-disable-line

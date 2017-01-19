@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link, browserHistory } from 'react-router';
 
 /* eslint-disable */
 import TodoList from 'TodoList';
@@ -10,16 +9,15 @@ import * as actions from 'actions';
 /* eslint-enable */
 
 const TodoApp = (props) => {
-  const logout = (e) => {
-    e.preventDefault();
+  const onLogout = (evt) => {
+    evt.preventDefault();
     props.dispatch(actions.startLogout());
     console.log('logged out');
-    browserHistory.push('/');
   };
   return (
     <div>
       <div className="page-actions">
-        <Link to="/" onClick={logout}>Logout</Link>
+        <a onClick={onLogout}>Logout</a>
       </div>
       <h1 className="page-title">Todo App</h1>
       <div className="row">

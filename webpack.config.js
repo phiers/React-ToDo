@@ -17,11 +17,6 @@ module.exports = {
       '$': 'jquery', // eslint-disable-line
       'jQuery': 'jquery', //eslint-disable-line
     }),
-    new webpack.optimize.UglifyJsPlugin({
-      compressor: {
-        warnings: false,
-      },
-    }),
   ],
   output: {
     path: __dirname,
